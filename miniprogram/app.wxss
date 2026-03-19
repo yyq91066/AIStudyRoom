@@ -1,0 +1,23 @@
+page {
+  background-color: #f5f7fb;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.container {
+  padding: 20rpx;
+}
+
+.button-primary {
+  background: linear-gradient(135deg, #4b7bff 0%, #3ad0c4 100%);
+  color: #ffffff;
+  border-radius: 14rpx;
+  font-weight: 600;
+}
+
+.input-field {
+  background: #f7f9fd;
+  border: 1px solid rgba(148, 169, 207, 0.45);
+  border-radius: 14rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+}

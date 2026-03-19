@@ -1,0 +1,62 @@
+:root {
+  font-family: "Sora", "Manrope", "Segoe UI Variable", "Segoe UI", "Helvetica Neue",
+    sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+  color: #12141a;
+  background-color: #edf1f7;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a {
+  font-weight: 600;
+  color: #2f6dff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: #1b4fe0;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: radial-gradient(1200px 800px at 15% -10%, #dbe8ff 0%, transparent 55%),
+    radial-gradient(1200px 800px at 95% 10%, #ffe4c7 0%, transparent 45%),
+    linear-gradient(180deg, #f6f7fb 0%, #eef2f8 100%);
+  color: inherit;
+}
+
+#app {
+  min-height: 100vh;
+  width: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(14, 23, 38, 0.06);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(36, 53, 80, 0.2);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(36, 53, 80, 0.35);
+}

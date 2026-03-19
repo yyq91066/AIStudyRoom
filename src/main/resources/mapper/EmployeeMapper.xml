@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.aidemo.aotuFillTest.mapper.EmployeeMapper">
+    <insert id="save" parameterType="org.example.aidemo.sky.entiy.Employee" useGeneratedKeys="true" keyProperty="id" >
+insert into employee( user_name,name,phone_number,sex,id_number,password,update_time,create_time,create_user,update_user)
+VALUES(
+       #{userName},#{name},#{phoneNumber},#{sex},#{idNumber},#{password},#{updateTime},#{createTime},#{createUser},#{updateUser}
+      )
+    </insert>
+</mapper>

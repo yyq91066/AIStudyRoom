@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>生成小程序图标</title>
+</head>
+<body>
+    <h2>微信小程序图标生成器</h2>
+    <p>点击下面的按钮生成所需的图标:</p>
+    
+    <button onclick="generateIcons()">生成所有图标</button>
+    
+    <canvas id="canvas" width="160" height="160" style="display:none;"></canvas>
+    
+    <div id="links"></div>
+    
+    <script>
+        function generateIcons() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            const links = document.getElementById('links');
+            links.innerHTML = '<h3>下载链接 (右键另存为):</h3>';
+            
+            // 1. logo.png (160x160)
+            canvas.width = 160;
+            canvas.height = 160;
+            ctx.fillStyle = '#4b7bff';
+            ctx.fillRect(0, 0, 160, 160);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 40px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('医疗', 80, 90);
+            downloadCanvas('logo.png', links);
+            
+            // 2. wechat.png (48x48)
+            canvas.width = 48;
+            canvas.height = 48;
+            ctx.fillStyle = '#07c160';
+            ctx.fillRect(0, 0, 48, 48);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 14px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('微信', 24, 30);
+            downloadCanvas('wechat.png', links);
+            
+            // 3. chat.png (48x48)
+            canvas.width = 48;
+            canvas.height = 48;
+            ctx.fillStyle = '#cccccc';
+            ctx.fillRect(0, 0, 48, 48);
+            ctx.fillStyle = '#666666';
+            ctx.font = 'bold 12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('对话', 24, 30);
+            downloadCanvas('chat.png', links);
+            
+            // 4. chat-active.png (48x48)
+            canvas.width = 48;
+            canvas.height = 48;
+            ctx.fillStyle = '#4b7bff';
+            ctx.fillRect(0, 0, 48, 48);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('对话', 24, 30);
+            downloadCanvas('chat-active.png', links);
+            
+            // 5. profile.png (48x48)
+            canvas.width = 48;
+            canvas.height = 48;
+            ctx.fillStyle = '#cccccc';
+            ctx.fillRect(0, 0, 48, 48);
+            ctx.fillStyle = '#666666';
+            ctx.font = 'bold 12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('我的', 24, 30);
+            downloadCanvas('profile.png', links);
+            
+            // 6. profile-active.png (48x48)
+            canvas.width = 48;
+            canvas.height = 48;
+            ctx.fillStyle = '#4b7bff';
+            ctx.fillRect(0, 0, 48, 48);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('我的', 24, 30);
+            downloadCanvas('profile-active.png', links);
+            
+            alert('图标已生成！请在下方右键保存图片到 miniprogram/images/ 文件夹');
+        }
+        
+        function downloadCanvas(filename, container) {
+            const canvas = document.getElementById('canvas');
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+            link.innerHTML = `📥 ${filename}`;
+            link.style.display = 'inline-block';
+            link.style.margin = '5px';
+            link.style.padding = '5px 10px';
+            link.style.background = '#f0f0f0';
+            link.style.borderRadius = '4px';
+            container.appendChild(link);
+        }
+    </script>
+</body>
+</html>

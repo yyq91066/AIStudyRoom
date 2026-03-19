@@ -1,0 +1,37 @@
+# 图标资源说明
+
+请将以下图标图片放置在此文件夹中:
+
+## 必需图标 (PNG 格式)
+
+1. **logo.png** (160x160px)
+   - 应用 Logo，显示在登录页顶部
+
+2. **wechat.png** (48x48px)
+   - 微信图标，用于微信登录按钮
+
+3. **chat.png** (48x48px)
+   - 聊天图标 (未选中状态),tabBar 使用
+
+4. **chat-active.png** (48x48px)
+   - 聊天图标 (选中状态),tabBar 使用
+
+5. **profile.png** (48x48px)
+   - 个人中心图标 (未选中状态),tabBar 使用
+
+6. **profile-active.png** (48x48px)
+   - 个人中心图标 (选中状态),tabBar 使用
+
+## 图标获取方式
+
+- 从 https://www.iconfont.cn/ 下载免费图标
+- 从 https://www.flaticon.com/ 下载免费图标
+- 使用设计工具 (如 Figma、Photoshop) 自行制作
+- 使用 AI 生成工具生成图标
+
+## 临时方案
+
+如果暂时没有图标，可以:
+1. 使用纯色图片或文字代替
+2. 从网上找类似的免费图标临时使用
+3. 在 app.json 中暂时移除 tabBar 配置

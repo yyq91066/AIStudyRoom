@@ -1,0 +1,26 @@
+<view class="register-container">
+  <view class="header">
+    <text class="title">注册新账号</text>
+  </view>
+  
+  <view class="form-section">
+    <view class="input-item">
+      <input class="input-field" type="text" placeholder="请输入用户名 (6-12 位字母数字)" value="{{username}}" bindinput="onUsernameInput"/>
+    </view>
+    
+    <view class="input-item">
+      <input class="input-field" type="text" placeholder="请输入邮箱" value="{{email}}" bindinput="onEmailInput"/>
+    </view>
+    
+    <view class="input-item">
+      <input class="input-field" type="text" placeholder="请输入密码 (6-12 位)" value="{{password}}" bindinput="onPasswordInput"/>
+    </view>
+    
+    <view class="input-item code-input">
+      <input class="input-field" type="text" placeholder="请输入验证码" value="{{code}}" bindinput="onCodeInput"/>
+      <button class="code-button" bindtap="sendCode" disabled="{{codeDisabled}}">{{codeButtonText}}</button>
+    </view>
+    
+    <button class="button-primary" bindtap="onRegister">立即注册</button>
+  </view>
+</view>

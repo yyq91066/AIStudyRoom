@@ -1,0 +1,31 @@
+<view class="login-container">
+  <view class="logo-section">
+    <image class="logo" src="/images/logo.png" mode="aspectFit"></image>
+    <text class="logo-text">智慧医疗</text>
+  </view>
+  
+  <view class="form-section">
+    <view class="input-item">
+      <input class="input-field" type="text" placeholder="请输入用户名" value="{{username}}" bindinput="onUsernameInput"/>
+    </view>
+    
+    <view class="input-item">
+      <input class="input-field" type="password" placeholder="请输入密码" value="{{password}}" bindinput="onPasswordInput"/>
+    </view>
+    
+    <button class="button-primary" bindtap="onLogin">登录</button>
+    
+    <view class="extra-actions">
+      <text class="link-text" bindtap="goToRegister">没有账号？立即注册</text>
+    </view>
+    
+    <view class="divider">
+      <text>或</text>
+    </view>
+    
+    <button class="button-wechat" bindtap="onWechatLogin">
+      <image class="wechat-icon" src="/images/wechat.png"></image>
+      微信一键登录
+    </button>
+  </view>
+</view>

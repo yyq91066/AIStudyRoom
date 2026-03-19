@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.aidemo.studyroom.mapper.ReservationMapper">
+    <select id="findByUserId" resultType="org.example.aidemo.studyroom.entity.Reservation">
+        SELECT
+            reservation.id as id,
+            reservation.user_id as user_id,
+            reservation.store_id as store_id,
+            reservation.room_id as room_id,
+            reservation.start_time as start_time,
+            reservation.end_time as end_time,
+            reservation.status as status,
+            reservation.create_time as create_time,
+            room.room_name AS remark1
+        FROM reservation
+        left join
+            room on reservation.room_id = room.id
+        WHERE reservation.user_id = #{userId}
+        ORDER BY reservation.create_time DESC
+    </select>
+</mapper>
