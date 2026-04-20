@@ -3,11 +3,14 @@ package org.example.aidemo.common.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Result<T> {
+public class Result<T> implements Serializable {
     private Integer code;
     private String message;
     private T data;

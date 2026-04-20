@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.aidemo.studyroom.mapper.ReportMapper">
+    <select id="getCount" resultType="org.example.aidemo.studyroom.entity.ReportCountVO" >
+        SELECT
+        DATE(create_time) AS orderDate,
+        COUNT(*) AS orderCount
+        FROM
+        `reservation`
+        WHERE
+        create_time >= #{startDate}
+        AND create_time &lt; #{endDate}
+        GROUP BY
+        DATE(create_time)
+        ORDER BY
+        orderDate
+    </select>
+</mapper>
