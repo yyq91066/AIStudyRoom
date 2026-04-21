@@ -28,6 +28,11 @@ public class RoomController {
         Room roomById = roomServiceImpl.findRoomById(id);
         return Result.success(roomById);
     }
+    @GetMapping("/DeleteRoomById")
+    public Result deleteRoomById(Long id) {
+        roomServiceImpl.deleteRoomById(id);
+        return Result.success("success");
+    }
 
     @GetMapping("/getByStoreId")
 //    @Cacheable(cacheNames = "roomCache", key = "#id")//roomCache::id

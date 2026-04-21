@@ -46,4 +46,10 @@ public class RoomServiceImpl implements RoomService {
 
         return roomMapper.findRoomById(id);
     }
+
+    @Override
+    public void deleteRoomById(Long id) {
+         roomMapper.deleteRoom(id);
+    }
+
 }

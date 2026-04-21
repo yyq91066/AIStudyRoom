@@ -21,4 +21,6 @@ public interface RoomMapper {
     void updateRoom(Room room);
 
     Room findRoomById(Long id);
+    @Select("delete from room where id = #{id}")
+    void deleteRoom (Long id);
 }
