@@ -7,11 +7,14 @@ const httpInstance=axios.create({
 //配置拦截器
 
 //请求拦截器
-httpInstance.interceptors.request.use(config=>{
-    return config
-},e => Promise.reject(e))
+httpInstance.interceptors.request.use(
+    config=>{return config},
+        e => Promise.reject(e)
+
+)
 //响应拦截器
-httpInstance.interceptors.response.use(res=>res.date,e =>{
-    return Promise.reject(e)
-})
+httpInstance.interceptors.response.use(
+    res=>res.data,
+        e =>{return Promise.reject(e)}
+)
 export default httpInstance
