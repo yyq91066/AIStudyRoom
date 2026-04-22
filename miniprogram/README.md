@@ -3,7 +3,7 @@
 ## 项目结构
 ```
 miniprogram/
-├── app.js                    # 小程序入口文件
+├── http.js                    # 小程序入口文件
 ├── app.json                  # 全局配置文件
 ├── app.wxss                  # 全局样式文件
 ├── project.config.json       # 项目配置文件
@@ -80,7 +80,7 @@ miniprogram/
 
 ## API 接口对接
 
-后端接口地址配置在 `app.js` 中:
+后端接口地址配置在 `http.js` 中:
 ```javascript
 this.globalData.API_BASE_URL = 'http://localhost:8080/api';
 ```
