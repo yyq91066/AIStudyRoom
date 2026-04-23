@@ -1,17 +1,13 @@
 <script setup>
-import {getCategoryAPI} from '@/apis/layout.js'
 import {onMounted} from "vue";
 import  {ref} from "vue";
-
-const categoryLIst = ref([])
-const getCategory = async ()=>{
-  const res=await getCategoryAPI()
-  categoryLIst.value = res.data
-  console.log(res.data,'res.data.data')
-  console.log(categoryLIst.value,'categoryLIst.value')
-}
+import {useScroll} from '@vueuse/core'
+import { useCategoryStore } from "@/stores/category";
+const {y}=useScroll(window)
+//使用pinia中的数据
+const categoryStore=useCategoryStore()
 onMounted(() => {
-  getCategory()
+  console.log(categoryStore.categoryLIst,"categoryStore")
 })
 </script>
 
@@ -23,11 +19,12 @@ onMounted(() => {
         <!-- 左侧 logo -->
         <div class="logo">
           <RouterLink to="/">智学空间</RouterLink>
+          {{y}}
         </div>
 
         <!-- 中间导航 -->
         <ul class="nav-list">
-          <li v-for="item in categoryLIst" :key="item.id">
+          <li v-for="item in categoryStore.categoryLIst" :key="item.id">
             <RouterLink to="/" active-class="active">
               {{ item.name }}
             </RouterLink>
