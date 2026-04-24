@@ -3,6 +3,7 @@ package org.example.aidemo.studyroom.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.example.aidemo.studyroom.entity.Room;
+import org.example.aidemo.studyroom.entity.RoomType;
 
 import java.util.List;
 
@@ -23,4 +24,7 @@ public interface RoomMapper {
     Room findRoomById(Long id);
     @Select("delete from room where id = #{id}")
     void deleteRoom (Long id);
+
+    @Select("select * from room_type")
+    List<RoomType>  getRoomTypes ();
 }

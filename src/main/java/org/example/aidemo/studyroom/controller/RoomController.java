@@ -2,6 +2,7 @@ package org.example.aidemo.studyroom.controller;
 
 import org.example.aidemo.common.model.Result;
 import org.example.aidemo.studyroom.entity.Room;
+import org.example.aidemo.studyroom.entity.RoomType;
 import org.example.aidemo.studyroom.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -59,5 +60,10 @@ public class RoomController {
     public Result<String> updateRoom(@RequestBody Room room) {
         roomServiceImpl.updateRoom(room);
         return Result.success("更新成功");
+    }
+    @GetMapping("/getRoomTypes")
+    public Result<List<RoomType>> getRoomTypes() {
+        List<RoomType> roomTypes = roomServiceImpl.getRoomTypes();
+        return Result.success(roomTypes);
     }
 }

@@ -1,6 +1,7 @@
 package org.example.aidemo.studyroom.service.impl;
 
 import org.example.aidemo.studyroom.entity.Room;
+import org.example.aidemo.studyroom.entity.RoomType;
 import org.example.aidemo.studyroom.mapper.RoomMapper;
 import org.example.aidemo.studyroom.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +52,11 @@ public class RoomServiceImpl implements RoomService {
     public void deleteRoomById(Long id) {
          roomMapper.deleteRoom(id);
     }
+
+    @Override
+    public List<RoomType> getRoomTypes() {
+        return roomMapper.getRoomTypes();
+    }
+
 
 }

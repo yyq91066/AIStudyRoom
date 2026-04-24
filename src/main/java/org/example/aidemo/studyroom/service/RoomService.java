@@ -1,6 +1,7 @@
 package org.example.aidemo.studyroom.service;
 
 import org.example.aidemo.studyroom.entity.Room;
+import org.example.aidemo.studyroom.entity.RoomType;
 
 import java.util.List;
 
@@ -15,4 +16,5 @@ public interface RoomService {
     void updateRoom(Room room);
     Room findRoomById(Long id);
     void deleteRoomById(Long id);
+    List<RoomType> getRoomTypes();
 }

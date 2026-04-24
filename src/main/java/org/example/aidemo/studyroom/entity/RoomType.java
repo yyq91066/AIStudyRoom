@@ -10,5 +10,6 @@ public class RoomType {
     private Integer capacity;
     private Double price;
     private String description;
+    private String picture;
 
 }
