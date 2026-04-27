@@ -1,13 +1,25 @@
 <script setup>
-import {onMounted} from "vue";
-import  {ref} from "vue";
-import {useScroll} from '@vueuse/core'
-import { useCategoryStore } from "@/stores/category";
-const {y}=useScroll(window)
-//使用pinia中的数据
-const categoryStore=useCategoryStore()
+import { computed, onMounted } from 'vue'
+import { useScroll } from '@vueuse/core'
+import { useCategoryStore } from '@/stores/category'
+import { useLoginStore } from '@/stores/login'
+
+const { y } = useScroll(window)
+const categoryStore = useCategoryStore()
+const userStore = useLoginStore()
+
+const userinfo = computed(() => userStore.userInfo)
+const isLogin = computed(() => userStore.isLogin)
+const displayName = computed(() => {
+  const info = userinfo.value
+  if (!info) return ''
+
+  return info.user?.nickname || info.user?.username || info.nickname || info.username || '用户'
+})
+
 onMounted(() => {
-  console.log(categoryStore.categoryLIst,"categoryStore")
+  console.log(categoryStore.categoryLIst, 'categoryStore')
+  console.log(y.value, 'scrollY')
 })
 </script>
 
@@ -20,6 +32,7 @@ onMounted(() => {
         <div class="logo">
           <RouterLink to="/">智学空间</RouterLink>
         </div>
+
         <!-- 中间导航 -->
         <ul class="nav-list">
           <li v-for="item in categoryStore.categoryLIst" :key="item.id">
@@ -34,25 +47,18 @@ onMounted(() => {
           <div class="search-box">
             <input type="text" placeholder="搜索" />
           </div>
-          <span class="icon">⤴</span>
-          <span class="icon">🛒</span>
           <span class="icon">🔔</span>
-          <span class="avatar">
-            <router-link to="/login" active-class="active">
-              登录
-            </router-link>
-          </span>
+          <!--          <span>{{ userStore.userInfo.user.nickname }}</span>-->
+          <span v-if="isLogin" class="username">欢迎，{{ displayName }}</span>
+          <router-link v-if="!isLogin" to="/login" active-class="active"> 登录 </router-link>
+          <span v-if="isLogin" @click="userStore.logout">退出登录</span>
         </div>
       </div>
     </header>
-
-
   </div>
-
 </template>
 
-
-<style scoped >
+<style scoped>
 .page {
   background: #f5f5f5;
   min-height: 0vh;
@@ -164,6 +170,14 @@ onMounted(() => {
   color: #42d7ff;
 }
 
+.username {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #fff;
+}
+
 .avatar {
   width: 36px;
   height: 36px;
@@ -260,4 +274,3 @@ onMounted(() => {
   transform: translateY(-3px);
 }
 </style>
-<!--//把智学空间标题和遍历出来的Category放到一行，智学空间是主logo  Category的内容是导航栏 帮我美化一下-->

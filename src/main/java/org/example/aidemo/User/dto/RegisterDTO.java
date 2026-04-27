@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 @Data
 public class RegisterDTO implements Serializable {
+    private String nickname;
 
 //    @NotBlank(message = "用户名不能为空")
     private String username;

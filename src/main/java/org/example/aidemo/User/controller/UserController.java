@@ -70,6 +70,13 @@ public class UserController {
         redisTemplate1.delete(redisKey);
 
         User user =new User();
+        //昵称
+        if (registerDTO.getNickname() == null || registerDTO.getNickname().isEmpty()) {
+            user.setNickname("用户");
+        }
+        else {
+            user.setNickname(registerDTO.getNickname());
+        }
         user.setUsername(registerDTO.getUsername());
         user.setPassword(registerDTO.getPassword());
         user.setEmail(registerDTO.getEmail());

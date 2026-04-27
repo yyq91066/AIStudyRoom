@@ -9,7 +9,7 @@ import org.example.aidemo.User.model.User;
 @Mapper
 public interface UserMapper {
 
-    @Insert("insert into user_entity(username,password,email,create_time,update_time) values(#{username},#{password},#{email},now(),now())")
+    @Insert("insert into user_entity(username,nickname,password,email,create_time,update_time) values(#{username},#{nickname},#{password},#{email},now(),now())")
     void register(User user);
 
     @Select("select * from user_entity where username=#{username}")

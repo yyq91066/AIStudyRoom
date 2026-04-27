@@ -34,8 +34,9 @@
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import {UserLoginAPI} from "@/apis/login.js";
-
+// import {UserLoginAPI} from "@/apis/login.js";
+import {useLoginStore} from "@/stores/login"
+const loginStore=useLoginStore()
 const router = useRouter()
 
 const form = reactive({
@@ -50,15 +51,19 @@ const handleLogin = async () => {
   }
 
   // : 调登录接口
-   const res =await UserLoginAPI(form)
-  // if (!res.success) {
+  //  const res =await UserLoginAPI(form)
+  await loginStore.login(form)
+  const res =loginStore.userInfo
+      // if (!res.success) {
   //   ElMessage.error(res.message)
   //   return
   // }
   console.log(res,"此处是login的res")
   console.log(res.token,"此处是login的res的data.token")
   localStorage.setItem('token1', res.token)
+  console.log(res.user,"此处是login的res的data.user")
   ElMessage.success('登录成功')
+
   await router.push('/')
 }
 
