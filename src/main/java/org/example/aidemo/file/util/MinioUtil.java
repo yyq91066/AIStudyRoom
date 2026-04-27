@@ -1,4 +1,4 @@
-package org.example.aidemo.common.util;
+package org.example.aidemo.file.util;
 
 import cn.hutool.core.io.FileUtil;
 import io.minio.*;

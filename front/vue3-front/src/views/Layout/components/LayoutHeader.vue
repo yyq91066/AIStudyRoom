@@ -19,13 +19,11 @@ onMounted(() => {
         <!-- 左侧 logo -->
         <div class="logo">
           <RouterLink to="/">智学空间</RouterLink>
-          {{y}}
         </div>
-
         <!-- 中间导航 -->
         <ul class="nav-list">
           <li v-for="item in categoryStore.categoryLIst" :key="item.id">
-            <RouterLink to="/" active-class="active">
+            <RouterLink :to="item.path" active-class="active">
               {{ item.name }}
             </RouterLink>
           </li>
@@ -39,7 +37,11 @@ onMounted(() => {
           <span class="icon">⤴</span>
           <span class="icon">🛒</span>
           <span class="icon">🔔</span>
-          <span class="avatar">Y</span>
+          <span class="avatar">
+            <router-link to="/login" active-class="active">
+              登录
+            </router-link>
+          </span>
         </div>
       </div>
     </header>

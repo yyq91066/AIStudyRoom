@@ -1,6 +1,6 @@
 <template>
-  <Report/>
-<!--   <ChatWindow/>-->
+<!--  <Report/>-->
+   <ChatWindow/>
 <!--   <login/>-->
 </template>
 

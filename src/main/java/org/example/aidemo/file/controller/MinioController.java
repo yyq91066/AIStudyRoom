@@ -1,5 +1,8 @@
-package org.example.aidemo.common.util;
+package org.example.aidemo.file.controller;
 
+import org.example.aidemo.file.entiy.SystemFile;
+import org.example.aidemo.file.service.MInioService;
+import org.example.aidemo.file.util.MinioUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,6 +21,8 @@ public class MinioController {
 
     @Autowired
     private MinioUtil minioUtil;
+    @Autowired
+    private MInioService fileService;
 
     /**
      * 文件上传接口
@@ -35,6 +40,18 @@ public class MinioController {
         }
     }
 
+    /**
+     * 文件上传接口
+     *    @ModelAttribute：从“表单参数”取值（key=value）
+     *    @RequestBody：从“请求体JSON”取值（application/json）
+     */
+    @PostMapping(value = "/uploadWithInfo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String upload(
+            @RequestParam("file") MultipartFile file,
+            @ModelAttribute SystemFile systemFile
+    ) {
+        return fileService.uploadWithInfo(file, systemFile);
+    }
     /**
      * 文件下载接口
      */

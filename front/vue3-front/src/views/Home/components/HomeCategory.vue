@@ -34,8 +34,7 @@ const selectRoomType = (index) => {
           v-if="roomTypesStore.roomTypesList[activeIndex]?.picture"
           :src="roomTypesStore.roomTypesList[activeIndex].picture"
           fit="contain"
-          class="room-image"
-      >
+          class="room-image">
         <template #error>
           <div class="image-error">图片加载失败</div>
         </template>

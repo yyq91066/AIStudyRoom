@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 命名空间保持和Mapper接口一致 -->
+<mapper namespace="org.example.aidemo.file.mapper.SystemFIleMapper">
+<insert id="addSystemFile" parameterType="org.example.aidemo.file.entiy.SystemFile">
+    insert into system_file
+        (name,type,url,upload_time,upload_user,description,remark,remark1,remark2,remark3,remark4)
+    values
+        (#{name},#{type},#{url},#{uploadTime},#{uploadUser},#{description},#{remark},#{remark1},#{remark2},#{remark3},#{remark4})
+</insert>
+</mapper>

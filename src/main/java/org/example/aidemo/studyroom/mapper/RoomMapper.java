@@ -25,6 +25,5 @@ public interface RoomMapper {
     @Select("delete from room where id = #{id}")
     void deleteRoom (Long id);
 
-    @Select("select * from room_type")
     List<RoomType>  getRoomTypes ();
 }

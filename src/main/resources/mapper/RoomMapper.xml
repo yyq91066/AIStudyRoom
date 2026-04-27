@@ -73,4 +73,17 @@
         from room
       where id=#{id}
     </select>
+    <select id="getRoomTypes" resultType="org.example.aidemo.studyroom.entity.RoomType">
+        select
+            room.id as id,
+            room.name as name,
+            room.capacity as capacity,
+            room.price as price,
+            room.description as description,
+            file.url as picture
+        from room_type room
+            left join system_file file
+                on room.picture = file.id
+
+    </select>
 </mapper>
