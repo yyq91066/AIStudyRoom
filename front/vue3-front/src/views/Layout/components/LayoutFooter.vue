@@ -1,67 +1,65 @@
 <template>
-<!--  <footer class="app_footer">-->
-<!--    &lt;!&ndash; 联系我们 &ndash;&gt;-->
-<!--    <div class="contact">-->
-<!--      <div class="container">-->
-<!--        <dl>-->
-<!--          <dt>客户服务</dt>-->
-<!--          <dd><i class="iconfont icon-kefu"></i> 在线客服</dd>-->
-<!--          <dd><i class="iconfont icon-question"></i> 问题反馈</dd>-->
-<!--        </dl>-->
-<!--        <dl>-->
-<!--          <dt>关注我们</dt>-->
-<!--          <dd><i class="iconfont icon-weixin"></i> 公众号</dd>-->
-<!--          <dd><i class="iconfont icon-weibo"></i> 微博</dd>-->
-<!--        </dl>-->
-<!--        <dl>-->
-<!--          <dt>下载APP</dt>-->
-<!--          <dd class="qrcode"><img src="@/assets/images/qrcode.jpg" /></dd>-->
-<!--          <dd class="download">-->
-<!--            <span>扫描二维码</span>-->
-<!--            <span>立马下载APP</span>-->
-<!--            <a href="javascript:;">下载页面</a>-->
-<!--          </dd>-->
-<!--        </dl>-->
-<!--        <dl>-->
-<!--          <dt>服务热线</dt>-->
-<!--          <dd class="hotline">400-0000-000 <small>周一至周日 8:00-18:00</small></dd>-->
-<!--        </dl>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    &lt;!&ndash; 其它 &ndash;&gt;-->
-<!--    <div class="extra">-->
-<!--      <div class="container">-->
-<!--        <div class="slogan">-->
-<!--          <a href="javascript:;">-->
-<!--            <i class="iconfont icon-footer01"></i>-->
-<!--            <span>价格亲民</span>-->
-<!--          </a>-->
-<!--          <a href="javascript:;">-->
-<!--            <i class="iconfont icon-footer02"></i>-->
-<!--            <span>物流快捷</span>-->
-<!--          </a>-->
-<!--          <a href="javascript:;">-->
-<!--            <i class="iconfont icon-footer03"></i>-->
-<!--            <span>品质新鲜</span>-->
-<!--          </a>-->
-<!--        </div>-->
-<!--        &lt;!&ndash; 版权信息 &ndash;&gt;-->
-<!--        <div class="copyright">-->
-<!--          <p>-->
-<!--            <a href="javascript:;">关于我们</a>-->
-<!--            <a href="javascript:;">帮助中心</a>-->
-<!--            <a href="javascript:;">售后服务</a>-->
-<!--            <a href="javascript:;">配送与验收</a>-->
-<!--            <a href="javascript:;">商务合作</a>-->
-<!--            <a href="javascript:;">搜索推荐</a>-->
-<!--            <a href="javascript:;">友情链接</a>-->
-<!--          </p>-->
-<!--          <p>CopyRight © 小兔鲜儿</p>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </footer>-->
+  <footer class="page-shell footer-shell">
+    <div class="footer-card">
+      <div>
+        <strong>智学空间</strong>
+        <p>面向自习室场景的预约、空间展示、AI 问答与数据报表平台。</p>
+      </div>
+      <div class="footer-tags">
+        <span>空间导览</span>
+        <span>智能问答</span>
+        <span>经营报表</span>
+      </div>
+    </div>
+  </footer>
 </template>
 
-<style scoped >
+<style scoped>
+.footer-shell {
+  padding-top: 8px;
+}
+
+.footer-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 22px;
+  border-radius: 24px;
+  background: rgba(24, 41, 45, 0.9);
+  color: rgba(255, 249, 241, 0.9);
+  box-shadow: 0 18px 40px rgba(17, 25, 29, 0.14);
+}
+
+.footer-card strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 16px;
+}
+
+.footer-card p {
+  margin: 0;
+  color: rgba(255, 249, 241, 0.68);
+  font-size: 13px;
+}
+
+.footer-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.footer-tags span {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  .footer-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
 </style>

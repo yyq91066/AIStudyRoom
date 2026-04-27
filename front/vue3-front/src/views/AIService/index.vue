@@ -1,62 +1,73 @@
 <template>
-  <div class="app-layout">
-    <div class="sidebar">
-      <div class="logo-section">
-        <img src="@/assets/logo.png" alt="智学空间" width="160" height="160" />
-        <span class="logo-text">智学空间</span>
+  <div class="page-shell ai-page">
+    <section class="page-hero ai-hero">
+      <div>
+        <span class="eyebrow">AI Service</span>
+        <h1 class="section-title">让智能问答页更像产品工作台，而不是一块裸聊天框。</h1>
       </div>
-      <el-button class="new-chat-button" @click="newChat">
-        <i class="fa-solid fa-plus"></i>
-        &nbsp;新会话
-      </el-button>
-    </div>
-    <div class="main-content">
-      <div class="chat-container">
-        <div class="message-list" ref="messaggListRef">
-          <div
+      <p class="section-desc">
+        保留现有流式对话能力，同时统一侧栏、消息区和输入区的视觉语言，提升阅读效率与页面完成度。
+      </p>
+    </section>
+
+    <div class="app-layout">
+      <aside class="sidebar">
+        <div class="logo-section">
+          <img src="@/assets/logo.png" alt="智学空间" width="96" height="96" />
+          <div>
+            <span class="logo-text">智学空间 AI 助手</span>
+            <p>用于规则咨询、学习建议与平台说明。</p>
+          </div>
+        </div>
+
+        <div class="sidebar-tips">
+          <div>
+            <strong>推荐提问</strong>
+            <span>自习室规则、预约说明、空间推荐</span>
+          </div>
+          <div>
+            <strong>输出形式</strong>
+            <span>支持 Markdown 渲染与流式回复展示</span>
+          </div>
+        </div>
+
+        <el-button class="new-chat-button" @click="newChat">开启新会话</el-button>
+      </aside>
+
+      <section class="main-content">
+        <div class="chat-container">
+          <div class="message-list" ref="messaggListRef">
+            <div
               v-for="(message, index) in messages"
               :key="index"
-              :class="
-              message.isUser ? 'message user-message' : 'message bot-message'
-            "
-          >
-            <i
-                :class="
-                message.isUser
-                  ? 'fa-solid fa-user message-icon'
-                  : 'fa-solid fa-robot message-icon'
-              "
-            ></i>
-            <span>
-<!--              <span v-html="message.content"></span>-->
-              <div
+              :class="message.isUser ? 'message user-message' : 'message bot-message'"
+            >
+              <div class="message-badge">{{ message.isUser ? '我' : 'AI' }}</div>
+              <div class="message-body">
+                <div
                   class="msg-content"
                   :class="{ 'markdown-body': !message.isUser }"
                   v-html="message.isUser ? escapeHtml(message.content) : message.contentHtml"
-              ></div>
+                ></div>
 
-              <!-- loading -->
-              <span
-                  class="loading-dots"
-                  v-if="message.isThinking || message.isTyping"
-              >
-                <span class="dot"></span>
-                <span class="dot"></span>
-              </span>
-            </span>
+                <span v-if="message.isThinking || message.isTyping" class="loading-dots">
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-container">
+            <el-input
+              v-model="inputMessage"
+              placeholder="请输入你的问题，例如：推荐一种适合长时间学习的房型"
+              @keyup.enter="sendMessage"
+            />
+            <el-button @click="sendMessage" :disabled="isSending" type="primary">发送</el-button>
           </div>
         </div>
-        <div class="input-container">
-          <el-input
-              v-model="inputMessage"
-              placeholder="请输入消息"
-              @keyup.enter="sendMessage"
-          ></el-input>
-          <el-button @click="sendMessage" :disabled="isSending" type="primary">
-            发送
-          </el-button>
-        </div>
-      </div>
+      </section>
     </div>
   </div>
 </template>
@@ -65,21 +76,22 @@
 import { onMounted, ref, watch } from 'vue'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
+import 'github-markdown-css/github-markdown.css'
+import { renderMd } from '@/utils/md'
 
 const messaggListRef = ref()
 const isSending = ref(false)
 const uuid = ref()
 const inputMessage = ref('')
 const messages = ref([])
-import "github-markdown-css/github-markdown.css";
-import { renderMd } from "@/utils/md";
 
-const escapeHtml = (s = "") =>
-    s.replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
+const escapeHtml = (s = '') =>
+  s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
 
 onMounted(() => {
   initUUID()
@@ -112,14 +124,15 @@ const sendRequest = (message) => {
     isTyping: false,
     isThinking: false,
   }
-  if(messages.value.length > 0){
+
+  if (messages.value.length > 0) {
     messages.value.push(userMsg)
   }
 
   const botMsg = {
     isUser: false,
-    content: "",        // 鍘熷娴佸紡鏂囨湰锛坢arkdown锛?
-    contentHtml: "",    // 娓叉煋鍚庣殑HTML
+    content: '',
+    contentHtml: '',
     isTyping: true,
     isThinking: false,
   }
@@ -129,31 +142,31 @@ const sendRequest = (message) => {
   scrollToBottom()
 
   axios
-      .post(
-          'http://localhost:8080/aiservice/chat',
-          { memoryId: uuid.value, message },
-          {
-            responseType: 'stream',
-            onDownloadProgress: (e) => {
-              const fullText = e.event.target.responseText
-              let newText = fullText.substring(lastMsg.content.length)
-              lastMsg.content += newText
-              lastMsg.contentHtml = renderMd(lastMsg.content)
-              console.log(lastMsg)
-              scrollToBottom()
-            },
-          }
-      )
-      .then(() => {
-        messages.value.at(-1).isTyping = false
-        isSending.value = false
-      })
-      .catch((error) => {
-        console.error(':', error)
-        messages.value.at(-1).content = '请求失败，请重试'
-        messages.value.at(-1).isTyping = false
-        isSending.value = false
-      })
+    .post(
+      'http://localhost:8080/aiservice/chat',
+      { memoryId: uuid.value, message },
+      {
+        responseType: 'stream',
+        onDownloadProgress: (e) => {
+          const fullText = e.event.target.responseText
+          const newText = fullText.substring(lastMsg.content.length)
+          lastMsg.content += newText
+          lastMsg.contentHtml = renderMd(lastMsg.content)
+          scrollToBottom()
+        },
+      },
+    )
+    .then(() => {
+      messages.value.at(-1).isTyping = false
+      isSending.value = false
+    })
+    .catch((error) => {
+      console.error('AI 请求失败:', error)
+      messages.value.at(-1).content = '请求失败，请稍后重试'
+      messages.value.at(-1).contentHtml = '请求失败，请稍后重试'
+      messages.value.at(-1).isTyping = false
+      isSending.value = false
+    })
 }
 
 const initUUID = () => {
@@ -165,157 +178,190 @@ const initUUID = () => {
   uuid.value = storedUUID
 }
 
-const uuidToNumber = (uuid) => {
+const uuidToNumber = (rawUuid) => {
   let number = 0
-  for (let i = 0; i < uuid.length && i < 6; i++) {
-    const hexValue = uuid[i]
+  for (let i = 0; i < rawUuid.length && i < 6; i++) {
+    const hexValue = rawUuid[i]
     number = number * 16 + (parseInt(hexValue, 16) || 0)
   }
   return number % 1000000
 }
 
-const convertStreamOutput = (output) => {
-  return output
-      .replace(/\n/g, '<br>')
-      .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
-      .replace(/&/g, '&amp;') // 鏂板杞箟锛岄伩鍏?HTML 娉ㄥ叆
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-}
-
 const newChat = () => {
-  console.log('开始新会话')
   localStorage.removeItem('user_uuid')
   window.location.reload()
 }
-
 </script>
+
 <style scoped>
-.app-layout {
-  display: flex;
+.ai-page {
+  display: grid;
   gap: 20px;
-  height: 100vh;
-  padding: 20px;
-  background: transparent;
 }
 
-.sidebar {
-  width: 240px;
-  background: rgba(255, 255, 255, 0.75);
-  border: 1px solid rgba(148, 169, 207, 0.35);
-  box-shadow: 0 20px 45px rgba(30, 45, 90, 0.12);
-  border-radius: 22px;
-  padding: 24px 18px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.ai-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: 24px;
+  align-items: end;
+}
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 20px;
+  min-height: 72vh;
+}
+
+.sidebar,
+.main-content {
+  border-radius: 28px;
+  border: 1px solid rgba(143, 77, 22, 0.12);
+  background: rgba(255, 252, 247, 0.8);
+  box-shadow: var(--shadow-lg);
   backdrop-filter: blur(18px);
 }
 
+.sidebar {
+  padding: 24px;
+  display: grid;
+  align-content: start;
+  gap: 24px;
+}
+
 .logo-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
+  display: grid;
+  gap: 14px;
+}
+
+.logo-section img {
+  border-radius: 24px;
+  box-shadow: var(--shadow-sm);
 }
 
 .logo-text {
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 0.2px;
-  color: #1b1f2b;
-  margin-top: 0;
+  display: block;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.logo-section p,
+.sidebar-tips span {
+  margin: 6px 0 0;
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.sidebar-tips {
+  display: grid;
+  gap: 14px;
+}
+
+.sidebar-tips div {
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(143, 77, 22, 0.12);
+}
+
+.sidebar-tips strong {
+  display: block;
+  margin-bottom: 4px;
 }
 
 .new-chat-button {
-  width: 100%;
-  margin-top: 24px;
-  height: 44px;
-  border-radius: 14px;
+  height: 48px;
   border: none;
-  background: linear-gradient(135deg, #4b7bff 0%, #3ad0c4 100%);
-  color: #fff;
-  font-weight: 600;
-  box-shadow: 0 12px 25px rgba(58, 144, 255, 0.25);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.new-chat-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 16px 30px rgba(58, 144, 255, 0.3);
+  border-radius: 16px;
+  background: linear-gradient(135deg, #bc6c25, #f6bd60);
+  color: #1f2529;
+  font-weight: 800;
 }
 
 .main-content {
-  flex: 1;
-  padding: 0;
-  overflow-y: auto;
-  background: rgba(255, 255, 255, 0.65);
-  border-radius: 24px;
-  border: 1px solid rgba(148, 169, 207, 0.28);
-  box-shadow: 0 18px 40px rgba(30, 45, 90, 0.1);
+  padding: 18px;
 }
+
 .chat-container {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 20px;
+  gap: 16px;
 }
 
 .message-list {
   flex: 1;
+  min-height: 460px;
   overflow-y: auto;
-  padding: 16px;
-  border: 1px solid rgba(148, 169, 207, 0.25);
-  border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, #f5f7fb 100%);
-  margin-bottom: 14px;
+  padding: 14px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(247, 240, 230, 0.88));
+  border: 1px solid rgba(143, 77, 22, 0.12);
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
 .message {
-  padding: 12px 14px;
-  border-radius: 16px;
   display: flex;
+  gap: 12px;
   align-items: flex-start;
-  gap: 6px;
-  animation: message-rise 0.25s ease;
 }
 
 .user-message {
-  max-width: 70%;
-  background: linear-gradient(135deg, #d7e7ff 0%, #bfe4f4 100%);
   align-self: flex-end;
   flex-direction: row-reverse;
-  box-shadow: 0 10px 18px rgba(35, 88, 168, 0.12);
 }
 
-.bot-message {
-  max-width: 90%;
-  background: #ffffff;
-  align-self: flex-start;
-  border: 1px solid rgba(148, 169, 207, 0.25);
-  box-shadow: 0 10px 22px rgba(28, 40, 74, 0.08);
+.message-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #17313a, #2f7f73);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  flex-shrink: 0;
 }
 
-.message-icon {
-  margin: 0 10px;
-  font-size: 1.1em;
-  color: #4b7bff;
+.user-message .message-badge {
+  background: linear-gradient(135deg, #bc6c25, #f6bd60);
+  color: #1f2529;
+}
+
+.message-body {
+  max-width: min(82%, 760px);
+  padding: 14px 16px;
+  border-radius: 20px;
+  background: #fffdf9;
+  border: 1px solid rgba(143, 77, 22, 0.12);
+  box-shadow: var(--shadow-sm);
+}
+
+.user-message .message-body {
+  background: linear-gradient(135deg, rgba(246, 189, 96, 0.24), rgba(188, 108, 37, 0.14));
+}
+
+.msg-content {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 14px;
+  color: var(--text-main);
 }
 
 .loading-dots {
-  padding-left: 5px;
+  display: inline-flex;
+  gap: 6px;
+  margin-top: 8px;
 }
 
 .dot {
-  display: inline-block;
-  margin-left: 5px;
   width: 8px;
   height: 8px;
-  background-color: #000000;
   border-radius: 50%;
+  background: var(--brand);
   animation: pulse 1.2s infinite ease-in-out both;
 }
 
@@ -323,10 +369,54 @@ const newChat = () => {
   animation-delay: -0.6s;
 }
 
+.input-container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(143, 77, 22, 0.12);
+}
+
+.input-container :deep(.el-input__wrapper) {
+  min-height: 48px;
+  border-radius: 14px;
+  box-shadow: none;
+  background: rgba(250, 247, 243, 0.96);
+}
+
+.input-container :deep(.el-button) {
+  height: 48px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #2f7f73, #6fb8ac);
+  font-weight: 700;
+}
+
+.bot-message :deep(.markdown-body) {
+  background: transparent;
+  color: inherit;
+  line-height: 1.45;
+}
+
+.bot-message :deep(.markdown-body p),
+.bot-message :deep(.markdown-body ul),
+.bot-message :deep(.markdown-body ol),
+.bot-message :deep(.markdown-body pre) {
+  margin: 0.4em 0;
+}
+
+.bot-message :deep(.markdown-body pre) {
+  padding: 12px;
+  border-radius: 12px;
+}
+
 @keyframes pulse {
   0%,
   100% {
-    transform: scale(0.6);
+    transform: scale(0.7);
     opacity: 0.4;
   }
 
@@ -335,197 +425,32 @@ const newChat = () => {
     opacity: 1;
   }
 }
-.input-container {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  padding: 12px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(148, 169, 207, 0.25);
-  box-shadow: 0 12px 24px rgba(28, 40, 74, 0.08);
+
+@media (max-width: 960px) {
+  .ai-hero,
+  .app-layout {
+    grid-template-columns: 1fr;
+  }
 }
 
-.input-container .el-input {
-  flex: 1;
-  margin-right: 0;
-}
-
-.input-container :deep(.el-input__wrapper) {
-  background: #f7f9fd;
-  border: 1px solid rgba(148, 169, 207, 0.45);
-  border-radius: 14px;
-  box-shadow: none;
-  padding: 6px 12px;
-}
-
-.input-container :deep(.el-input__wrapper.is-focus) {
-  border-color: rgba(75, 123, 255, 0.8);
-  box-shadow: 0 0 0 3px rgba(75, 123, 255, 0.18);
-}
-
-.input-container :deep(.el-input__inner) {
-  font-size: 15px;
-  color: #1a1d26;
-}
-
-.input-container :deep(.el-button) {
-  height: 44px;
-  border-radius: 12px;
-  font-weight: 600;
-}
-
-.input-container :deep(.el-button--primary) {
-  background: linear-gradient(135deg, #4b7bff 0%, #6a5dff 100%);
-  border: none;
-  box-shadow: 0 10px 18px rgba(75, 123, 255, 0.28);
-}
-
-.input-container :deep(.el-button--primary:hover) {
-  filter: brightness(1.02);
-}
-
-/* 濯掍綋鏌ヨ锛屽綋璁惧瀹藉害灏忎簬绛変簬 768px 鏃跺簲鐢ㄤ互涓嬫牱寮?*/
 @media (max-width: 768px) {
+  .sidebar,
   .main-content {
-    padding: 0;
-  }
-  .app-layout {
-    flex-direction: column;
-    padding: 12px;
+    border-radius: 22px;
   }
 
-  .sidebar {
-    /* display: none; */
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
+  .sidebar,
+  .main-content,
+  .message-list {
+    padding: 16px;
   }
 
-  .logo-section {
-    flex-direction: row;
-    align-items: center;
+  .message-body {
+    max-width: 100%;
   }
 
-  .logo-text {
-    font-size: 18px;
-  }
-
-  .logo-section img {
-    width: 40px;
-    height: 40px;
-  }
-
-  .new-chat-button {
-    margin-right: 30px;
-    width: auto;
-    margin-top: 5px;
-    height: 40px;
+  .input-container {
+    grid-template-columns: 1fr;
   }
 }
-
-/* 濯掍綋鏌ヨ锛屽綋璁惧瀹藉害澶т簬 768px 鏃跺簲鐢ㄥ師鏉ョ殑鏍峰紡 */
-@media (min-width: 769px) {
-  .main-content {
-    padding: 0;
-  }
-
-  .app-layout {
-    display: flex;
-    height: 100vh;
-  }
-
-  .sidebar {
-    width: 240px;
-    background: rgba(255, 255, 255, 0.75);
-    padding: 24px 18px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .logo-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .logo-text {
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 0;
-  }
-
-  .new-chat-button {
-    width: 100%;
-    margin-top: 20px;
-  }
-}
-.msg-content {
-  width: 100%;
-  white-space: pre-wrap;
-  word-break: break-word;
-  font-size: 14px;
-  color: #1b1f2b;
-}
-
-/* 鏈?markdown 鏇村儚 ChatGPT */
-.bot-message .markdown-body {
-  background: transparent; /* 璁╂皵娉″簳鑹茬敱 .bot-message 鎺у埗 */
-  font-size: 14px;
-  line-height: 1.05;
-}
-
-/* 浠ｇ爜鍧楀ソ鐪?鍙í鍚戞粴鍔?*/
-.bot-message .markdown-body pre {
-  border-radius: 12px;
-  padding: 12px;
-  overflow: auto;
-  margin: 10px 0;
-}
-.bot-message .markdown-body code {
-  border-radius: 6px;
-  padding: 2px 6px;
-  background: rgba(0,0,0,.04);
-}
-
-
-/* 鉁?scoped 涓嬪繀椤?deep 鎵嶈兘绋冲畾瑕嗗埗 github-markdown-css */
-.bot-message :deep(.markdown-body) {
-  line-height: 1.25;   /* 琛岄棿璺濆埆澶皬锛?.05浼氄寻寰楅毦鐪?*/
-}
-
-.bot-message :deep(.markdown-body p) {
-  margin: 0.1em 0 !important;   /* 娈佃惤闂磋窛锛氬叧閿?*/
-}
-
-.bot-message :deep(.markdown-body ul),
-.bot-message :deep(.markdown-body ol) {
-  margin: 0.25em 0 !important;  /* 鍒楄〃鏁翠綋涓ຼ下闂磋窛 */
-  padding-left: 1.2em;          /* 鍒楄〃缂╄繘绋嶅井绱у噾 */
-}
-
-.bot-message :deep(.markdown-body li) {
-  margin: 0.15em 0 !important;  /* 鍒楄〃椤归棿璺?*/
-}
-
-.bot-message :deep(.markdown-body pre) {
-  margin: 0.35em 0 !important;  /* 浠ｇ爜鍧椾笂涓嬮棿璺?*/
-}
-
-@keyframes message-rise {
-  from {
-    transform: translateY(6px);
-    opacity: 0.6;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
 </style>
-
-

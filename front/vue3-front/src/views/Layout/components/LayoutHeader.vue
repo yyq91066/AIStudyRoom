@@ -1,276 +1,220 @@
 <script setup>
-import { computed, onMounted } from 'vue'
-import { useScroll } from '@vueuse/core'
+import { computed } from 'vue'
 import { useCategoryStore } from '@/stores/category'
 import { useLoginStore } from '@/stores/login'
 
-const { y } = useScroll(window)
 const categoryStore = useCategoryStore()
 const userStore = useLoginStore()
 
-const userinfo = computed(() => userStore.userInfo)
 const isLogin = computed(() => userStore.isLogin)
 const displayName = computed(() => {
-  const info = userinfo.value
-  if (!info) return ''
-
+  const info = userStore.userInfo
+  if (!info) return '访客'
   return info.user?.nickname || info.user?.username || info.nickname || info.username || '用户'
 })
 
-onMounted(() => {
-  console.log(categoryStore.categoryLIst, 'categoryStore')
-  console.log(y.value, 'scrollY')
+const navItems = computed(() => {
+  if (categoryStore.categoryLIst?.length) {
+    return categoryStore.categoryLIst
+  }
+
+  return [
+    { id: 'home', name: '首页', path: '/' },
+    { id: 'category', name: '空间类型', path: '/category' },
+    { id: 'aiservice', name: 'AI 服务', path: '/aiservice' },
+    { id: 'report', name: '报表中心', path: '/report' },
+  ]
 })
 </script>
 
 <template>
-  <div class="page">
-    <!-- 顶部导航栏 -->
-    <header class="top-nav">
-      <div class="container nav-content">
-        <!-- 左侧 logo -->
-        <div class="logo">
-          <RouterLink to="/">智学空间</RouterLink>
-        </div>
-
-        <!-- 中间导航 -->
-        <ul class="nav-list">
-          <li v-for="item in categoryStore.categoryLIst" :key="item.id">
-            <RouterLink :to="item.path" active-class="active">
-              {{ item.name }}
-            </RouterLink>
-          </li>
-        </ul>
-
-        <!-- 右侧功能区 -->
-        <div class="nav-right">
-          <div class="search-box">
-            <input type="text" placeholder="搜索" />
+  <header class="header-shell">
+    <div class="page-shell">
+      <div class="header-card">
+        <RouterLink to="/" class="brand">
+          <span class="brand-mark">智</span>
+          <div>
+            <strong>智学空间</strong>
+            <span>自习室预约与智能服务平台</span>
           </div>
-          <span class="icon">🔔</span>
-          <!--          <span>{{ userStore.userInfo.user.nickname }}</span>-->
-          <span v-if="isLogin" class="username">欢迎，{{ displayName }}</span>
-          <router-link v-if="!isLogin" to="/login" active-class="active"> 登录 </router-link>
-          <span v-if="isLogin" @click="userStore.logout">退出登录</span>
+        </RouterLink>
+
+        <nav class="nav-list">
+          <RouterLink
+            v-for="item in navItems"
+            :key="item.id"
+            :to="item.path"
+            class="nav-link"
+            active-class="active"
+          >
+            {{ item.name }}
+          </RouterLink>
+        </nav>
+
+        <div class="header-actions">
+          <RouterLink to="/aiservice" class="quick-entry">进入 AI 助手</RouterLink>
+          <template v-if="isLogin">
+            <span class="welcome">你好，{{ displayName }}</span>
+            <button class="logout-btn" type="button" @click="userStore.logout">退出登录</button>
+          </template>
+          <RouterLink v-else to="/login" class="login-btn">登录 / 注册</RouterLink>
         </div>
       </div>
-    </header>
-  </div>
+    </div>
+  </header>
 </template>
 
 <style scoped>
-.page {
-  background: #f5f5f5;
-  min-height: 0vh;
+.header-shell {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 16px 0 0;
 }
 
-.container {
-  width: 1200px;
-  margin: 0 auto;
-}
-
-/* 顶部导航 */
-.top-nav {
-  height: 72px;
-  background: #050505;
-  color: #fff;
-}
-
-.nav-content {
-  height: 100%;
+.header-card {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 16px 20px;
+  background: rgba(22, 39, 42, 0.88);
+  color: #fff9f1;
+  border-radius: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 40px rgba(17, 25, 29, 0.18);
+  backdrop-filter: blur(16px);
 }
 
-/* logo */
-.logo {
-  margin-right: 40px;
-  flex-shrink: 0;
-}
-
-.logo a {
-  color: #fff;
-  font-size: 32px;
-  font-weight: 700;
-  text-decoration: none;
-  letter-spacing: 1px;
-}
-
-/* 中间导航 */
-.nav-list {
+.brand {
   display: flex;
   align-items: center;
   gap: 14px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  flex: 1;
+  min-width: 0;
 }
 
-.nav-list li a {
-  display: block;
-  padding: 10px 18px;
-  color: #fff;
-  text-decoration: none;
-  font-size: 18px;
-  border-radius: 18px;
-  transition: all 0.3s ease;
-}
-
-.nav-list li a:hover {
-  background: rgba(63, 209, 255, 0.18);
-  color: #42d7ff;
-}
-
-.nav-list li a.active {
-  background: rgba(63, 209, 255, 0.2);
-  color: #42d7ff;
-  font-weight: 600;
-}
-
-/* 右侧 */
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-shrink: 0;
-}
-
-.search-box {
-  width: 180px;
-  height: 38px;
-  border: 1px solid #3d3d3d;
-  border-radius: 20px;
-  background: #111;
-  overflow: hidden;
-}
-
-.search-box input {
-  width: 100%;
-  height: 100%;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: #fff;
-  padding: 0 14px;
-}
-
-.search-box input::placeholder {
-  color: #888;
-}
-
-.icon {
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f6bd60, #bc6c25);
+  color: #1f2529;
   font-size: 22px;
-  cursor: pointer;
-  transition: 0.3s;
+  font-weight: 800;
 }
 
-.icon:hover {
-  transform: translateY(-1px);
-  color: #42d7ff;
+.brand strong {
+  display: block;
+  font-size: 19px;
+  letter-spacing: 0.02em;
 }
 
-.username {
-  max-width: 120px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: #fff;
+.brand span:last-child {
+  display: block;
+  margin-top: 2px;
+  color: rgba(255, 249, 241, 0.72);
+  font-size: 12px;
 }
 
-.avatar {
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, #42d7ff, #6a5cff);
-  border-radius: 50%;
+.nav-list {
   display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.nav-link {
+  padding: 10px 16px;
+  border-radius: 999px;
+  color: rgba(255, 249, 241, 0.82);
+  transition: 0.25s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quick-entry,
+.login-btn,
+.logout-btn {
+  height: 42px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 999px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/* 用户横幅区域 */
-.user-banner {
-  background: linear-gradient(to right, #1c1c1f, #161619);
-  color: #fff;
-  padding: 36px 0 24px;
-}
-
-.banner-content {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-}
-
-.user-left {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.user-avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #63f3ff, #5773ff);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 42px;
-  font-weight: bold;
-  box-shadow: 0 0 20px rgba(76, 185, 255, 0.35);
-}
-
-.user-info h2 {
-  margin: 0 0 26px;
-  font-size: 40px;
+  font-size: 14px;
   font-weight: 700;
 }
 
-.user-tabs {
-  display: flex;
-  gap: 36px;
-}
-
-.tab-item {
-  font-size: 18px;
-  color: #d8d8d8;
-  cursor: pointer;
-  padding-bottom: 10px;
-  border-bottom: 3px solid transparent;
-  transition: 0.3s;
-}
-
-.tab-item:hover {
-  color: #42d7ff;
-}
-
-.active-tab {
+.quick-entry {
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
-  border-bottom-color: #5b63ff;
 }
 
-/* 右下角圆按钮 */
-.user-actions {
-  display: flex;
-  gap: 18px;
-}
-
-.circle-btn {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: none;
-  background: linear-gradient(135deg, #34d6ff, #6384ff);
-  color: #fff;
-  font-size: 24px;
+.login-btn,
+.logout-btn {
+  background: linear-gradient(135deg, #f6bd60, #bc6c25);
+  color: #1f2529;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(68, 154, 255, 0.28);
-  transition: 0.3s;
 }
 
-.circle-btn:hover {
-  transform: translateY(-3px);
+.welcome {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: rgba(255, 249, 241, 0.82);
+}
+
+@media (max-width: 960px) {
+  .header-card {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .nav-list {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-shell {
+    padding-top: 10px;
+  }
+
+  .header-card {
+    padding: 14px;
+    border-radius: 22px;
+  }
+
+  .brand {
+    width: 100%;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .quick-entry,
+  .login-btn,
+  .logout-btn {
+    flex: 1;
+  }
 }
 </style>

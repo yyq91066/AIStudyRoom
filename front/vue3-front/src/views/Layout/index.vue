@@ -1,20 +1,38 @@
 <script setup lang="ts">
-import LayoutHeader from "./components/LayoutHeader.vue";
-import LayoutFooter from "./components/LayoutFooter.vue";
-// import LayoutNav from "./components/LayoutNav.vue";
-//触发获取导航列表的 action
-import { useCategoryStore } from "@/stores/category";
-import {onMounted} from "vue";
-const categoryStore = useCategoryStore();
+import { onMounted } from 'vue'
+import LayoutHeader from './components/LayoutHeader.vue'
+import LayoutFooter from './components/LayoutFooter.vue'
+import { useCategoryStore } from '@/stores/category'
+
+const categoryStore = useCategoryStore()
+
 onMounted(() => {
-  console.log("父组件挂载")
   categoryStore.getCategory()
-  console.log(categoryStore.categoryLIst,"categoryStoreFather")
 })
 </script>
+
 <template>
-  <LayoutHeader/>
-<!--  <LayoutNav/>-->
-    <RouterView/>
-<!--  <LayoutFooter/>-->
+  <div class="layout-shell">
+    <LayoutHeader />
+    <main class="layout-main">
+      <RouterView />
+    </main>
+    <LayoutFooter />
+  </div>
 </template>
+
+<style scoped>
+.layout-shell {
+  min-height: 100vh;
+}
+
+.layout-main {
+  padding: 24px 0 56px;
+}
+
+@media (max-width: 768px) {
+  .layout-main {
+    padding: 16px 0 36px;
+  }
+}
+</style>
