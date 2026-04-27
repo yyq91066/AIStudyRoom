@@ -34,7 +34,7 @@
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import {UserRegisterAPI} from "@/apis/login.js";
+import {UserLoginAPI} from "@/apis/login.js";
 
 const router = useRouter()
 
@@ -43,16 +43,23 @@ const form = reactive({
   password: ''
 })
 
-const handleLogin = () => {
+const handleLogin = async () => {
   if (!form.username || !form.password) {
     ElMessage.warning('请输入用户名和密码')
     return
   }
 
   // : 调登录接口
-  UserRegisterAPI(form)
+   const res =await UserLoginAPI(form)
+  // if (!res.success) {
+  //   ElMessage.error(res.message)
+  //   return
+  // }
+  console.log(res,"此处是login的res")
+  console.log(res.token,"此处是login的res的data.token")
+  localStorage.setItem('token1', res.token)
   ElMessage.success('登录成功')
-  router.push('/')
+  await router.push('/')
 }
 
 const goRegister = () => {

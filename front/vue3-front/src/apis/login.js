@@ -24,5 +24,17 @@ import httpInstance from "@/utils/http.js";
             console.log(err.message)
         }
     }
+    async function UserLoginAPI (loginDTO){
+        try {
+            let res =await httpInstance({
+                url:"/api/user/login",
+                data:loginDTO,
+                method:"POST"
+            })
+            return res.data
+        }catch ( error){
+            console.log(err.message)
+        }
+    }
 
-export {getRegisterCodeAPI,UserRegisterAPI}
+export {getRegisterCodeAPI,UserRegisterAPI,UserLoginAPI}
