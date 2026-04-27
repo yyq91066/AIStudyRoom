@@ -16,7 +16,7 @@ onMounted(() => {
 <template>
 <a>我是home页</a>
 <div>
-  <HomeBanner />
+<!--  <HomeBanner />-->
   <HomeCategory />
 </div>
 
