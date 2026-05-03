@@ -4,7 +4,9 @@
       <div class="auth-copy">
         <span class="eyebrow">Create Account</span>
         <h1>注册新账号</h1>
-        <p>注册页沿用同一套视觉骨架，减少页面切换时的割裂感，也方便后续继续加校验说明与帮助文案。</p>
+        <p>
+          注册页面沿用同一套视觉骨架，减少页面切换时的割裂感，也方便后续继续加校验说明与帮助文案。
+        </p>
         <div class="auth-points">
           <span>邮箱验证</span>
           <span>昵称设置</span>
@@ -24,7 +26,12 @@
             <el-input v-model="form.username" placeholder="请输入用户名" />
           </el-form-item>
           <el-form-item>
-            <el-input v-model="form.password" type="password" placeholder="请输入密码" show-password />
+            <el-input
+              v-model="form.password"
+              type="password"
+              placeholder="请输入密码"
+              show-password
+            />
           </el-form-item>
           <el-form-item>
             <el-input v-model="form.email" placeholder="请输入邮箱" />
@@ -49,8 +56,8 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
 import { getRegisterCodeAPI, UserRegisterAPI } from '@/apis/login.js'
+import { notifySuccess, notifyWarning } from '@/utils/feedback'
 
 const router = useRouter()
 
@@ -69,17 +76,17 @@ const checkEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 
 const sendCode = () => {
   if (!form.email) {
-    ElMessage.warning('请输入邮箱')
+    notifyWarning('请输入邮箱')
     return
   }
 
   if (!checkEmail(form.email)) {
-    ElMessage.warning('邮箱格式不正确')
+    notifyWarning('邮箱格式不正确')
     return
   }
 
   getRegisterCodeAPI(form.email)
-  ElMessage.success('验证码已发送')
+  notifySuccess('验证码已发送')
 
   countdown.value = 60
   timer = setInterval(() => {
@@ -93,17 +100,17 @@ const sendCode = () => {
 
 const handleRegister = () => {
   if (!form.username || !form.password || !form.email || !form.code) {
-    ElMessage.warning('请填写完整信息')
+    notifyWarning('请填写完整信息')
     return
   }
 
   if (!checkEmail(form.email)) {
-    ElMessage.warning('邮箱格式不正确')
+    notifyWarning('邮箱格式不正确')
     return
   }
 
   UserRegisterAPI(form)
-  ElMessage.success('注册成功')
+  notifySuccess('注册成功')
   setTimeout(() => {
     router.push('/login')
   }, 800)

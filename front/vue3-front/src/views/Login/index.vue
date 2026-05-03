@@ -3,38 +3,41 @@
     <section class="auth-hero">
       <div class="auth-copy">
         <span class="eyebrow">Welcome Back</span>
-        <h1>登录智学空间</h1>
-        <p>统一登录页的结构、色彩和留白，让身份验证流程也保持产品感，而不是单独一块“默认表单”。</p>
+        <h1>Sign in to Smart Space</h1>
+        <p>
+          Access reservation management, AI assistance, and reports from one
+          unified workspace.
+        </p>
         <div class="auth-points">
-          <span>预约管理</span>
-          <span>AI 咨询</span>
-          <span>报表查看</span>
+          <span>Reservations</span>
+          <span>AI Assistant</span>
+          <span>Reports</span>
         </div>
       </div>
 
       <el-card class="auth-card">
-        <h2>账号登录</h2>
-        <p class="subtitle">输入账号信息后即可进入平台首页。</p>
+        <h2>Account Login</h2>
+        <p class="subtitle">Enter your account credentials to continue.</p>
 
         <el-form :model="form" class="auth-form">
           <el-form-item>
-            <el-input v-model="form.username" placeholder="请输入用户名" />
+            <el-input v-model="form.username" placeholder="Username" />
           </el-form-item>
 
           <el-form-item>
             <el-input
               v-model="form.password"
               type="password"
-              placeholder="请输入密码"
+              placeholder="Password"
               show-password
             />
           </el-form-item>
 
           <el-button type="primary" class="btn primary-btn" @click="handleLogin">
-            登录
+            Login
           </el-button>
 
-          <el-button class="btn ghost-btn" @click="goRegister">注册新账号</el-button>
+          <el-button class="btn ghost-btn" @click="goRegister">Register</el-button>
         </el-form>
       </el-card>
     </section>
@@ -44,8 +47,8 @@
 <script setup>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
 import { useLoginStore } from '@/stores/login'
+import { notifySuccess, notifyWarning } from '@/utils/feedback'
 
 const loginStore = useLoginStore()
 const router = useRouter()
@@ -57,14 +60,12 @@ const form = reactive({
 
 const handleLogin = async () => {
   if (!form.username || !form.password) {
-    ElMessage.warning('请输入用户名和密码')
+    notifyWarning('Please enter username and password')
     return
   }
 
   await loginStore.login(form)
-  const res = loginStore.userInfo
-  localStorage.setItem('token1', res.token)
-  ElMessage.success('登录成功')
+  notifySuccess('Login successful')
   await router.push('/')
 }
 

@@ -29,10 +29,9 @@ public class ReservationServiceImpl implements ReservationService {
 
         Room room=roomServiceImpl.findRoomById(reservation.getRoomId());
 
-        if (room.getStatus()==0) {
+        if (room.getStatus()==0){
             room.setStatus(1);
             roomServiceImpl.updateRoom(room);
-
             reservation.setStatus(0);
             reservationMapper.insertReservation(reservation);
 

@@ -1,0 +1,9 @@
+<script setup lang="ts"></script>
+
+<template>
+  <div>
+    管理端
+  </div>
+</template>
+
+<style scoped></style>

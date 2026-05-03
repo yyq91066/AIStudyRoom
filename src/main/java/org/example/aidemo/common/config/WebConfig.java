@@ -22,8 +22,8 @@ public class WebConfig implements WebMvcConfigurer {
                 "/swagger-ui/**",
                 "/v3/api-docs/**",
                 "/swagger-resources/**",
-                "/webjars/**",
-                "/**"
+                "/webjars/**"
+//                ,"/**"
         );//添加拦截器
     }
 }

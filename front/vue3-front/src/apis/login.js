@@ -1,40 +1,46 @@
-import httpInstance from "@/utils/http.js";
-    async function getRegisterCodeAPI(email){
-        try {
-            let res= await httpInstance({
-                url:"/api/user/send-register-code",
-                params:{
-                    email:email
-                }
-            })
-            return res.data
-        }catch ( error){
-            console.log(err.message)
-        }
-    }
-    async function UserRegisterAPI (registerDTO){
-        try {
-            let res =await httpInstance({
-                url:"/api/user/register",
-                data:registerDTO,
-                method:"POST"
-            })
-            return res.data
-        }catch ( error){
-            console.log(err.message)
-        }
-    }
-    async function UserLoginAPI (loginDTO){
-        try {
-            let res =await httpInstance({
-                url:"/api/user/login",
-                data:loginDTO,
-                method:"POST"
-            })
-            return res.data
-        }catch ( error){
-            console.log(err.message)
-        }
-    }
+import httpInstance from '@/utils/http.js'
 
-export {getRegisterCodeAPI,UserRegisterAPI,UserLoginAPI}
+async function getRegisterCodeAPI(email) {
+  try {
+    const res = await httpInstance({
+      url: '/api/user/send-register-code',
+      params: {
+        email,
+      },
+    })
+    return res
+  } catch (error) {
+    console.log(error.message)
+    throw error
+  }
+}
+
+async function UserRegisterAPI(registerDTO) {
+  try {
+    const res = await httpInstance({
+      url: '/api/user/register',
+      data: registerDTO,
+      method: 'POST',
+    })
+    return res
+  } catch (error) {
+    console.log(error.message)
+    throw error
+  }
+}
+
+async function UserLoginAPI(loginDTO) {
+  try {
+    const res = await httpInstance({
+      url: '/api/user/login',
+      data: loginDTO,
+      method: 'POST',
+    })
+    return res
+  } catch (error) {
+    console.log(error.message)
+    throw error
+  }
+}
+
+export { getRegisterCodeAPI, UserRegisterAPI, UserLoginAPI }

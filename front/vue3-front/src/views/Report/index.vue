@@ -61,6 +61,7 @@
 import { onMounted, ref } from 'vue'
 import * as echarts from 'echarts'
 import axios from 'axios'
+import { getReportAPI } from '@/apis/report.js'
 
 const chartRef = ref(null)
 let myChart = null
@@ -104,14 +105,19 @@ const initChart = () => {
 
 const fetchData = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/report/count', {
-      params: {
-        startDate: startDate.value,
-        endDate: endDate.value,
-      },
-    })
+    // const response = await axios.get('http://localhost:8080/report/count', {
+    //   params: {
+    //     startDate: startDate.value,
+    //     endDate: endDate.value,
+    //   },
+    // })
+    const queryDTO = {
+      startDate: startDate.value,
+      endDate: endDate.value,
+    }
+    const response = await getReportAPI(queryDTO)
 
-    const resultData = response.data.data
+    const resultData = response.data
     const dates = resultData.orderDate.split(',')
     const counts = resultData.orderCount.split(',').map(Number)
 

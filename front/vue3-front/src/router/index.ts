@@ -6,6 +6,7 @@ import Category from '@/views/Category/index.vue'
 import AIService from '@/views/AIService/index.vue'
 import Report from '@/views/Report/index.vue'
 import Register from '@/views/Login/components/register.vue'
+import Reserve from '@/views/Reserve/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,6 +30,10 @@ const router = createRouter({
         {
           path: 'report',
           component: Report,
+        },
+        {
+          path: 'reserve',
+          component: Reserve,
         },
       ],
     },
