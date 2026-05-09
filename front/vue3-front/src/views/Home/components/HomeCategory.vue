@@ -23,7 +23,7 @@ const selectRoomType = (index) => {
         <span class="eyebrow">Room Showcase</span>
         <h2>空间类型展示</h2>
       </div>
-      <p>用更清晰的左右分栏展示房型和实景图，减少“列表像后台”的感觉。</p>
+      <p>落座即静心，入馆便求知，智慧自习室・智学空间欢迎你。</p>
     </div>
 
     <div class="category-layout">

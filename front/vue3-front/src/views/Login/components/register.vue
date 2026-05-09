@@ -5,12 +5,12 @@
         <span class="eyebrow">Create Account</span>
         <h1>注册新账号</h1>
         <p>
-          注册页面沿用同一套视觉骨架，减少页面切换时的割裂感，也方便后续继续加校验说明与帮助文案。
+          欢迎注册账号，请填写完整信息。
         </p>
         <div class="auth-points">
-          <span>邮箱验证</span>
-          <span>昵称设置</span>
-          <span>快速返回登录</span>
+<!--          <span>邮箱验证</span>-->
+<!--          <span>昵称设置</span>-->
+<!--          <span>快速返回登录</span>-->
         </div>
       </div>
 

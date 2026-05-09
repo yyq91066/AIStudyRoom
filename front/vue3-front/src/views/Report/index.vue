@@ -49,7 +49,7 @@
       <div class="chart-head">
         <div>
           <h2>订单趋势图</h2>
-          <p>柱状图区域加上卡片容器和标题说明，视觉上更完整。</p>
+          <p>展示近六天的订单趋势，请在上方选择需要展示的时间段</p>
         </div>
       </div>
       <div ref="chartRef" class="chart-canvas"></div>

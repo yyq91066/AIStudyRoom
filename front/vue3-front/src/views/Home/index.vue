@@ -19,10 +19,8 @@ onMounted(() => {
     <section class="page-hero hero-grid">
       <div class="hero-copy">
         <span class="eyebrow">Smart Study Space</span>
-        <h1 class="section-title">把自习室预约、导览与智能服务整合成一个更有质感的前台。</h1>
-        <p class="section-desc">
-          首页重新组织为“品牌引导 + 空间展示 + 数据亮点”结构，让用户一眼看懂平台能力，也让后续功能扩展有稳定的布局骨架。
-        </p>
+        <h1 class="section-title">自习室预约、导览与智能服务前台。</h1>
+        <p class="section-desc">一隅智学天地，不负每段耕耘，智慧自习室诚邀开启静心学习时光。</p>
         <div class="chip-list">
           <span class="chip">在线预约</span>
           <span class="chip">房型切换</span>
@@ -50,7 +48,7 @@ onMounted(() => {
     </section>
 
     <HomeCategory />
-    <HomeNew />
+    <!--    <HomeNew />-->
     <HomeProducts />
   </div>
 </template>
