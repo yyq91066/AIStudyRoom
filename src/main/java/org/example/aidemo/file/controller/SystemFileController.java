@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/systemFile")
+@CrossOrigin
 public class SystemFileController {
     @Autowired
     private SystemFIleService systemFIleService;

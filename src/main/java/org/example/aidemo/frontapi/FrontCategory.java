@@ -11,4 +11,5 @@ public class FrontCategory implements Serializable {
     public String picture;
     public String describe;
     public String path;
+    public Integer enable;
 }

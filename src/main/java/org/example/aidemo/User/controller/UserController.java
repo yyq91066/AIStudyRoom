@@ -10,14 +10,18 @@ import org.example.aidemo.common.util.JwtUtil;
 import org.example.aidemo.common.util.Md5Util;
 import org.example.aidemo.common.util.ThreadLocalUtil;
 import org.example.aidemo.common.util.VerifyCodeUtils;
+import org.example.aidemo.file.entiy.SystemFile;
+import org.example.aidemo.file.service.SystemFIleService;
 import org.example.aidemo.mail.service.EmailService;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -213,4 +217,24 @@ public class UserController {
         return ip;}
 
 
+/**
+ * 用户头像更换
+ */
+    @Autowired
+    private SystemFIleService systemFIleService;
+    @PostMapping(value = "/updateAvatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Result updateAvatarAndFile(
+            @RequestParam("file") MultipartFile file,
+            @ModelAttribute SystemFile systemFile
+    ) {
+        try {
+            String url=systemFIleService.uploadFile(file, systemFile);
+            userService.updateAvatar(url);
+            return Result.success(url);
+        }catch (Exception e)
+            {
+            return Result.error("上传失败");
+        }
+
+    }
 }

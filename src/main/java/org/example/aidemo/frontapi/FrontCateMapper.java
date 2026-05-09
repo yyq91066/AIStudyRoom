@@ -7,6 +7,6 @@ import java.util.List;
 
 @Mapper
 public interface FrontCateMapper {
-    @Select("select * from front_category")
+    @Select("select * from front_category where enable = 1")
     List<FrontCategory> getCategory ();
 }

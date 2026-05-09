@@ -21,6 +21,7 @@ public class User {
     private String password;//密码
 
     private Double balance;
+    private String phone;
 //
 //
     @NotEmpty

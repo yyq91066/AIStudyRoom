@@ -52,8 +52,9 @@ const navItems = computed(() => {
         </nav>
 
         <div class="header-actions">
-          <RouterLink to="/aiservice" class="quick-entry">进入 AI 助手</RouterLink>
+          <RouterLink to="/aiservice" class="quick-entry">智能客服</RouterLink>
           <template v-if="isLogin">
+            <RouterLink to="/user" class="quick-entry">个人中心</RouterLink>
             <span class="welcome">你好，{{ displayName }}</span>
             <button class="logout-btn" type="button" @click="userStore.logout">退出登录</button>
           </template>

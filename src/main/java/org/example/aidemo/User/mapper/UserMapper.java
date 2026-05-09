@@ -15,7 +15,7 @@ public interface UserMapper {
     @Select("select * from user_entity where username=#{username}")
     User findByUsername(String username);
 
-    @Update("update user_entity set nickname=#{nickname},email=#{email},update_time=now() where id = #{id}")
+    @Update("update user_entity set nickname=#{nickname},email=#{email},update_time=now(),phone=#{phone} where id = #{id}")
     void update(User user);
 
     @Update("update user_entity set user_pic= #{avatarUrl},update_time=now() where id = #{id}")

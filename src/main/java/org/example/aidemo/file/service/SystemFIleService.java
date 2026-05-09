@@ -30,7 +30,8 @@ public class SystemFIleService {
            systemFIleMapper.addSystemFile(systemFile);
 
 //            return "上传成功！文件存储路径：" + fileName + "\n访问URL：" + minioUtil.getFileUrl(fileName);
-            return "上传成功！"+"\n访问URL："+url;
+//            return "上传成功！"+"\n访问URL："+url;
+            return url;
         } catch (Exception e) {
             return "上传失败：" + e.getMessage();
         }
