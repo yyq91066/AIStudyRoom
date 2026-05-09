@@ -8,7 +8,10 @@ const activeIndex = ref(0)
 const activeRoom = computed(() => roomTypesStore.roomTypesList?.[activeIndex.value])
 
 onMounted(() => {
-  roomTypesStore.getRoomTypes()
+  setTimeout(() => {
+    roomTypesStore.getRoomTypes()
+    console.log("111111111111111111111执行请求")
+  }, 3000)
 })
 
 const selectRoomType = (index) => {

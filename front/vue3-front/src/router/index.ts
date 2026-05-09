@@ -8,6 +8,7 @@ import Report from '@/views/Report/index.vue'
 import Register from '@/views/Login/components/register.vue'
 import Reserve from '@/views/Reserve/index.vue'
 import User from '@/views/User/index.vue'
+import Admin from '@/views/Admin/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -49,6 +50,10 @@ const router = createRouter({
     {
       path: '/register',
       component: Register,
+    },
+    {
+      path: '/admin',
+      component: Admin,
     },
   ],
 })

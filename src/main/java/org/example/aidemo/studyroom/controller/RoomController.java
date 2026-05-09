@@ -18,6 +18,7 @@ public class RoomController {
     @Autowired
     private RoomService roomServiceImpl;
     @GetMapping("/getAllRooms")
+    @Cacheable(cacheNames = "roomCache", key = "'getAllRooms'")
     public Result<List<Room>> getAllRooms() {
 
         List<Room> allRooms = roomServiceImpl.getAllRooms();
@@ -30,6 +31,7 @@ public class RoomController {
         return Result.success(roomById);
     }
     @GetMapping("/DeleteRoomById")
+    @CacheEvict(cacheNames = "roomCache", key = "'getAllRooms'")
     public Result deleteRoomById(Long id) {
         roomServiceImpl.deleteRoomById(id);
         return Result.success("success");
@@ -62,6 +64,8 @@ public class RoomController {
         return Result.success("更新成功");
     }
     @GetMapping("/getRoomTypes")
+//    @CacheEvict(cacheNames = "roomTypeCache", key = "'getAllRoomTypes'")
+    @Cacheable(cacheNames = "roomCache", key = "'getAllRooms'")
     public Result<List<RoomType>> getRoomTypes() {
         List<RoomType> roomTypes = roomServiceImpl.getRoomTypes();
         return Result.success(roomTypes);

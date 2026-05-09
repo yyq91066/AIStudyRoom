@@ -1,10 +1,12 @@
 <script setup>
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useCategoryStore } from '@/stores/category'
 import { useLoginStore } from '@/stores/login'
 
 const categoryStore = useCategoryStore()
 const userStore = useLoginStore()
+const router = useRouter()
 
 const isLogin = computed(() => userStore.isLogin)
 const displayName = computed(() => {
@@ -25,6 +27,14 @@ const navItems = computed(() => {
     { id: 'report', name: '报表中心', path: '/report' },
   ]
 })
+const logout = () => {
+  userStore.logout()
+  router.push('/login').catch(err => {
+    console.error('Navigation failed:', err)
+    // Fallback: force redirect
+    // window.location.href = '/login'
+  })
+}
 </script>
 
 <template>
@@ -56,7 +66,7 @@ const navItems = computed(() => {
           <template v-if="isLogin">
             <RouterLink to="/user" class="quick-entry">个人中心</RouterLink>
             <span class="welcome">你好，{{ displayName }}</span>
-            <button class="logout-btn" type="button" @click="userStore.logout">退出登录</button>
+            <button class="logout-btn" type="button" @click="logout">退出登录</button>
           </template>
           <RouterLink v-else to="/login" class="login-btn">登录 / 注册</RouterLink>
         </div>
